@@ -247,6 +247,21 @@ searchdb(char *imgname)
    * If Bloom Filter misses, return IMGDB_MISS.
    */
   /* YOUR CODE HERE */
+  unsigned char md[SHA1_MDLEN];
+  SHA1((unsigned char *) imgname, strlen(imgname), md);
+  id = ID(md);
+
+  if (!ID_inrange(id, IDrange[IMGDB_IDRBEG], IDrange[IMGDB_IDREND])) {
+    return IMGDB_MISS; 
+  }
+
+  if ((bloomfilter & (1L << (int) bfIDX(BFIDX1, md))) &&
+      (bloomfilter & (1L << (int) bfIDX(BFIDX2, md))) &&
+      (bloomfilter & (1L << (int) bfIDX(BFIDX3, md))))
+  { 
+    return IMGDB_MISS;
+  }
+
   
   /* To get here means that you've got a hit at the Bloom Filter.
    * Search the DB for a match to BOTH the image ID and name.
