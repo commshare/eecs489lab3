@@ -255,9 +255,9 @@ searchdb(char *imgname)
     return IMGDB_MISS; 
   }
 
-  if ((bloomfilter & (1L << (int) bfIDX(BFIDX1, md))) &&
+  if (!((bloomfilter & (1L << (int) bfIDX(BFIDX1, md))) &&
       (bloomfilter & (1L << (int) bfIDX(BFIDX2, md))) &&
-      (bloomfilter & (1L << (int) bfIDX(BFIDX3, md))))
+      (bloomfilter & (1L << (int) bfIDX(BFIDX3, md)))))
   { 
     return IMGDB_MISS;
   }

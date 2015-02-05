@@ -78,8 +78,13 @@ int
 ID_inrange(unsigned char ID, unsigned char begin, unsigned char end)
 {
   /* YOUR CODE HERE */
-  return (begin % (HASH_IDMAX + 1) < (ID % HASH_IDMAX + 1)) && 
-      ((ID % HASH_IDMAX + 1) <= end % (HASH_IDMAX + 1));
+  unsigned char id_circ = ID % (HASH_IDMAX + 1);
+  unsigned char begin_circ = begin % (HASH_IDMAX + 1);
+  unsigned char end_circ = end % (HASH_IDMAX + 1);
+
+  return (begin_circ < end_circ)
+    ? begin_circ < id_circ && id_circ <= end_circ
+    : begin_circ < id_circ || id_circ <= end_circ;
 }
 
 /*
